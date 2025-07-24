@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sahil AI - Next-Generation AI Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6366f1',
+                        secondary: '#8b5cf6',
+                        accent: '#ec4899',
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        danger: '#ef4444'
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif']
+                    },
+                    backdropBlur: {
+                        xs: '2px'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-slate-900 dark:to-indigo-950 min-h-screen font-sans transition-all duration-500">
+    <!-- Animated Background -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-accent/20 to-primary/20 rounded-full blur-3xl animate-pulse" style="animation-delay: 2s"></div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-secondary/10 to-accent/10 rounded-full blur-3xl animate-pulse" style="animation-delay: 4s"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="relative backdrop-blur-xl bg-white/80 dark:bg-gray-900/80 border-b border-white/20 dark:border-gray-800/50 shadow-lg shadow-black/5">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <div class="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center shadow-lg shadow-primary/25">
+                            <i class="fas fa-brain text-white text-xl"></i>
+                        </div>
+                        <div class="absolute -top-1 -right-1 w-4 h-4 bg-success rounded-full border-2 border-white dark:border-gray-900 animate-pulse"></div>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Sahil AI</h1>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 font-medium">Next-Generation AI Assistant</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="hidden md:flex items-center space-x-3 bg-success/10 backdrop-blur-sm rounded-full px-4 py-2 border border-success/20">
+                        <div class="w-2 h-2 bg-success rounded-full animate-pulse"></div>
+                        <span class="text-sm font-medium text-success">Online</span>
+                    </div>
+                    <button id="settingsBtn" class="p-3 hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-xl transition-all duration-200 backdrop-blur-sm border border-white/20 dark:border-gray-700/50">
+                        <i class="fas fa-cog text-gray-600 dark:text-gray-400"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-6 py-8 relative z-10">
+        <!-- Mode Selection -->
+        <div class="mb-8">
+            <div class="backdrop-blur-xl bg-white/70 dark:bg-gray-800/70 rounded-3xl shadow-2xl shadow-black/10 border border-white/20 dark:border-gray-700/50 p-6">
+                <h2 class="text-xl font-bold mb-6 flex items-center text-gray-800 dark:text-white">
+                    <div class="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center mr-3">
+                        <i class="fas fa-magic text-white text-sm"></i>
+                    </div>
+                    AI Mode Selection
+                </h2>
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                    <button class="mode-btn active group" data-mode="chat">
+                        <div class="mode-icon">
+                            <i class="fas fa-comments text-2xl mb-3 group-hover:scale-110 transition-transform duration-200"></i>
+                        </div>
+                        <div class="font-semibold">Chat</div>
+                        <div class="text-xs opacity-70 mt-1">Intelligent conversation</div>
+                    </button>
+                    <button class="mode-btn group" data-mode="voice">
+                        <div class="mode-icon">
+                            <i class="fas fa-microphone text-2xl mb-3 group-hover:scale-110 transition-transform duration-200"></i>
+                        </div>
+                        <div class="font-semibold">Voice</div>
+                        <div class="text-xs opacity-70 mt-1">Speech synthesis</div>
+                    </button>
+                    <button class="mode-btn group" data-mode="image">
+                        <div class="mode-icon">
+                            <i class="fas fa-image text-2xl mb-3 group-hover:scale-110 transition-transform duration-200"></i>
+                        </div>
+                        <div class="font-semibold">Vision</div>
+                        <div class="text-xs opacity-70 mt-1">Image generation</div>
+                    </button>
+                    <button class="mode-btn group" data-mode="agent">
+                        <div class="mode-icon">
+                            <i class="fas fa-robot text-2xl mb-3 group-hover:scale-110 transition-transform duration-200"></i>
+                        </div>
+                        <div class="font-semibold">Agent</div>
+                        <div class="text-xs opacity-70 mt-1">Task automation</div>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Interface -->
+        <div class="grid grid-cols-1 xl:grid-cols-4 gap-8">
+            <!-- Chat Area -->
+            <div class="xl:col-span-3">
+                <div class="backdrop-blur-xl bg-white/70 dark:bg-gray-800/70 rounded-3xl shadow-2xl shadow-black/10 border border-white/20 dark:border-gray-700/50 overflow-hidden">
+                    <!-- Chat Header -->
+                    <div class="p-6 border-b border-white/20 dark:border-gray-700/50 bg-gradient-to-r from-primary/5 to-secondary/5">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-bold text-lg flex items-center text-gray-800 dark:text-white">
+                                <div class="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fas fa-brain text-white text-sm"></i>
+                                </div>
+                                <span id="currentMode">Chat Mode</span>
+                            </h3>
+                            <div class="flex items-center space-x-2">
+                                <div class="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium border border-primary/20">
+                                    Active
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Chat Messages -->
+                    <div id="chatArea" class="h-96 p-6 overflow-y-auto space-y-6 scroll-smooth">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center text-white shadow-lg shadow-primary/25 flex-shrink-0">
+                                <i class="fas fa-brain text-sm"></i>
+                            </div>
+                            <div class="flex-1 bg-gradient-to-br from-gray-50 to-white dark:from-gray-700 dark:to-gray-800 rounded-2xl p-5 shadow-lg border border-white/50 dark:border-gray-600/50">
+                                <div class="prose prose-sm dark:prose-invert max-w-none">
+                                    <p class="mb-3 font-medium text-gray-800 dark:text-white">Hello! I'm Sahil AI, your next-generation AI assistant. I can help you with:</p>
+                                    <ul class="space-y-2 text-sm text-gray-600 dark:text-gray-300">
+                                        <li class="flex items-center"><i class="fas fa-check text-success mr-2"></i>Multimodal conversations (text, voice, images)</li>
+                                        <li class="flex items-center"><i class="fas fa-check text-success mr-2"></i>Real-time web research and analysis</li>
+                                        <li class="flex items-center"><i class="fas fa-check text-success mr-2"></i>Task automation and planning</li>
+                                        <li class="flex items-center"><i class="fas fa-check text-success mr-2"></i>Content creation and editing</li>
+                                    </ul>
+                                    <p class="mt-4 font-medium text-gray-800 dark:text-white">How can I assist you today?</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Input Area -->
+                    <div class="p-6 border-t border-white/20 dark:border-gray-700/50 bg-gradient-to-r from-gray-50/50 to-white/50 dark:from-gray-800/50 dark:to-gray-900/50">
+                        <div class="flex space-x-4 mb-4">
+                            <div class="flex-1 relative">
+                                <input 
+                                    type="text" 
+                                    id="messageInput" 
+                                    placeholder="Type your message..."
+                                    class="w-full p-4 pr-14 border-0 rounded-2xl bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm text-base focus:outline-none focus:ring-2 focus:ring-primary/50 shadow-lg placeholder-gray-500 dark:placeholder-gray-400 text-gray-800 dark:text-white"
+                                >
+                                <button id="sendBtn" class="absolute right-2 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center group">
+                                    <i class="fas fa-paper-plane group-hover:scale-110 transition-transform duration-200"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Quick Actions -->
+                        <div id="quickActions" class="flex flex-wrap gap-3">
+                            <button class="quick-action group">
+                                <i class="fas fa-lightbulb mr-2 group-hover:scale-110 transition-transform duration-200"></i>
+                                Explain
+                            </button>
+                            <button class="quick-action group">
+                                <i class="fas fa-search mr-2 group-hover:scale-110 transition-transform duration-200"></i>
+                                Web Search
+                            </button>
+                            <button class="quick-action group">
+                                <i class="fas fa-list mr-2 group-hover:scale-110 transition-transform duration-200"></i>
+                                Make Plan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Side Panel -->
+            <div class="space-y-6">
+                <!-- Persona Selection -->
+                <div class="backdrop-blur-xl bg-white/70 dark:bg-gray-800/70 rounded-3xl shadow-2xl shadow-black/10 border border-white/20 dark:border-gray-700/50 p-6">
+                    <h3 class="font-bold text-lg mb-6 flex items-center text-gray-800 dark:text-white">
+                        <div class="w-8 h-8 bg-gradient-to-br from-accent to-primary rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-user-tie text-white text-sm"></i>
+                        </div>
+                        AI Personas
+                    </h3>
+                    <div class="space-y-3">
+                        <button class="persona-btn active group" data-persona="general">
+                            <div class="persona-icon">
+                                <i class="fas fa-brain text-primary group-hover:scale-110 transition-transform duration-200"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="font-semibold text-gray-800 dark:text-white">General Assistant</div>
+                                <div class="text-xs text-gray-500 dark:text-gray-400">Balanced & helpful</div>
+                            </div>
+                        </button>
+                        <button class="persona-btn group" data-persona="business">
+                            <div class="persona-icon">
+                                <i class="fas fa-briefcase text-blue-500 group-hover:scale-110 transition-transform duration-200"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="font-semibold text-gray-800 dark:text-white">Business Co-pilot</div>
+                                <div class="text-xs text-gray-500 dark:text-gray-400">Strategy & productivity</div>
+                            </div>
+                        </button>
+                        <button class="persona-btn group" data-persona="creative">
+                            <div class="persona-icon">
+                                <i class="fas fa-palette text-pink-500 group-hover:scale-110 transition-transform duration-200"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="font-semibold text-gray-800 dark:text-white">Creative Director</div>
+                                <div class="text-xs text-gray-500 dark:text-gray-400">Content & design</div>
+                            </div>
+                        </button>
+                        <button class="persona-btn group" data-persona="research">
+                            <div class="persona-icon">
+                                <i class="fas fa-search text-green-500 group-hover:scale-110 transition-transform duration-200"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="font-semibold text-gray-800 dark:text-white">Research Assistant</div>
+                                <div class="text-xs text-gray-500 dark:text-gray-400">Analysis & insights</div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="backdrop-blur-xl bg-white/70 dark:bg-gray-800/70 rounded-3xl shadow-2xl shadow-black/10 border border-white/20 dark:border-gray-700/50 p-6">
+                    <h3 class="font-bold text-lg mb-6 flex items-center text-gray-800 dark:text-white">
+                        <div class="w-8 h-8 bg-gradient-to-br from-success to-primary rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-chart-line text-white text-sm"></i>
+                        </div>
+                        Quick Stats
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="stat-item">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-gray-600 dark:text-gray-400">Conversations</span>
+                                <div class="stat-badge">47</div>
+                            </div>
+                            <div class="stat-bar">
+                                <div class="stat-progress bg-gradient-to-r from-primary to-secondary" style="width: 78%"></div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-gray-600 dark:text-gray-400">Tasks Completed</span>
+                                <div class="stat-badge">23</div>
+                            </div>
+                            <div class="stat-bar">
+                                <div class="stat-progress bg-gradient-to-r from-success to-primary" style="width: 56%"></div>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-gray-600 dark:text-gray-400">Time Saved</span>
+                                <div class="stat-badge">12.5h</div>
+                            </div>
+                            <div class="stat-bar">
+                                <div class="stat-progress bg-gradient-to-r from-accent to-secondary" style="width: 89%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Integrations -->
+                <div class="backdrop-blur-xl bg-white/70 dark:bg-gray-800/70 rounded-3xl shadow-2xl shadow-black/10 border border-white/20 dark:border-gray-700/50 p-6">
+                    <h3 class="font-bold text-lg mb-6 flex items-center text-gray-800 dark:text-white">
+                        <div class="w-8 h-8 bg-gradient-to-br from-warning to-accent rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-plug text-white text-sm"></i>
+                        </div>
+                        Integrations
+                    </h3>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="integration-item group">
+                            <i class="fab fa-google text-red-500 group-hover:scale-110 transition-transform duration-200"></i>
+                            <span>Gmail</span>
+                        </div>
+                        <div class="integration-item group">
+                            <i class="fas fa-file-alt text-blue-500 group-hover:scale-110 transition-transform duration-200"></i>
+                            <span>Docs</span>
+                        </div>
+                        <div class="integration-item group">
+                            <i class="fab fa-slack text-purple-500 group-hover:scale-110 transition-transform duration-200"></i>
+                            <span>Slack</span>
+        
